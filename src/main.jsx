@@ -188,7 +188,7 @@ function App() {
 
           <div className="hero-photo">
             <div className="photo-frame">
-              <img src="/profile.jpg" alt="Zipo Nkefe" onError={(e) => { e.currentTarget.style.display = "none"; }} />
+              <img src="/IMG_7593.jpeg" alt="Zipo Nkefe" onError={(e) => { e.currentTarget.style.display = "none"; }} />
               <div className="photo-placeholder">
                 <div className="avatar-mark">ZN</div>
                 <strong>Add your photo</strong>
