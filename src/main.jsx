@@ -6,10 +6,10 @@ import {
   ChevronDown
 } from "lucide-react";
 import "./styles.css";
+import "./contact.css";
 
 const github = "https://github.com/elGuapoTheMainCharacter";
 const linkedin = "https://www.linkedin.com/in/ziponkefe";
-const email = "mailto:isaacnkefe@gmail.com";
 
 const projects = [
   {
@@ -114,6 +114,36 @@ const skills = [
 function App() {
   const [open, setOpen] = React.useState(false);
   const [filter, setFilter] = React.useState("All");
+  const [contactOpen, setContactOpen] = React.useState(false);
+  const [formStatus, setFormStatus] = React.useState("idle");
+
+  const handleContactSubmit = async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    setFormStatus("sending");
+
+    try {
+      const response = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" }
+      });
+
+      if (response.ok) {
+        form.reset();
+        setFormStatus("success");
+      } else {
+        setFormStatus("error");
+      }
+    } catch {
+      setFormStatus("error");
+    }
+  };
+
+  const showContactForm = () => {
+    setFormStatus("idle");
+    setContactOpen(true);
+  };
 
   const categories = ["All", "Full-Stack", "React", "JavaScript", "Java", "C#"];
   const visibleProjects = filter === "All"
@@ -182,7 +212,9 @@ function App() {
             </div>
             <div className="quick-links">
               <a href={linkedin} target="_blank" rel="noreferrer"><Linkedin size={16} /> LinkedIn</a>
-              <a href={email}><Mail size={16} /> Email me</a>
+              <button type="button" className="quick-contact-link" onClick={showContactForm}>
+                <Mail size={16} /> Email me
+              </button>
             </div>
           </div>
 
@@ -339,12 +371,92 @@ function App() {
             happy to discuss how I can contribute.
           </p>
           <div className="contact-actions">
-            <a className="button primary" href={email}><Mail size={18} /> Get in touch</a>
+            <button type="button" className="button primary" onClick={showContactForm}>
+              <Mail size={18} /> Get in touch
+            </button>
             <a className="button secondary" href={linkedin} target="_blank" rel="noreferrer"><Linkedin size={18} /> LinkedIn</a>
             <a className="button secondary" href={github} target="_blank" rel="noreferrer"><Github size={18} /> GitHub</a>
           </div>
         </section>
       </main>
+
+
+      {contactOpen && (
+        <div
+          className="contact-overlay"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setContactOpen(false);
+          }}
+        >
+          <section
+            className="contact-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="contact-modal-title"
+          >
+            <button
+              type="button"
+              className="contact-modal-close"
+              aria-label="Close contact form"
+              onClick={() => setContactOpen(false)}
+            >
+              <X size={22} />
+            </button>
+
+            {formStatus === "success" ? (
+              <div className="contact-feedback">
+                <Mail size={34} />
+                <h2 id="contact-modal-title">Message sent.</h2>
+                <p>Thank you for reaching out. I'll get back to you as soon as possible.</p>
+                <button
+                  type="button"
+                  className="button primary"
+                  onClick={() => {
+                    setContactOpen(false);
+                    setFormStatus("idle");
+                  }}
+                >
+                  Done
+                </button>
+              </div>
+            ) : (
+              <>
+                <p className="eyebrow">LET'S CONNECT</p>
+                <h2 id="contact-modal-title">Get in touch.</h2>
+                <p className="contact-modal-intro">Have an opportunity or a question? Send me a message.</p>
+
+                <form className="contact-form" onSubmit={handleContactSubmit}>
+                  <label>
+                    Your name
+                    <input type="text" name="name" autoComplete="name" placeholder="e.g. Jane Smith" required />
+                  </label>
+                  <label>
+                    Your email
+                    <input type="email" name="email" autoComplete="email" placeholder="you@company.com" required />
+                  </label>
+                  <label>
+                    Subject
+                    <input type="text" name="subject" placeholder="Junior Developer Opportunity" required />
+                  </label>
+                  <label>
+                    Message
+                    <textarea name="message" rows="5" maxLength={5000} placeholder="Write your message here..." required />
+                  </label>
+                  <button type="submit" className="button primary contact-submit" disabled={formStatus === "sending"}>
+                    <Mail size={18} />
+                    {formStatus === "sending" ? "Sending..." : "Send message"}
+                  </button>
+                  {formStatus === "error" && (
+                    <p className="contact-error" role="alert">
+                      Your message could not be sent. Please try again or email isaacnkefe@gmail.com directly.
+                    </p>
+                  )}
+                </form>
+              </>
+            )}
+          </section>
+        </div>
+      )}
 
       <footer>
         <span>© {new Date().getFullYear()} Zipo Siposenkosi Nkefe</span>
