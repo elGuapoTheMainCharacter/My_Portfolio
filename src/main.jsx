@@ -179,7 +179,7 @@ function App() {
           ))}
           <a
             className="nav-github"
-            href="/Zipo Siposenkosi Nkefe Curriculum Vitae.pdf"
+            href="/Siposenkosi_Zipo_Nkefe_Curriculum_Vitae (1).pdf"
             download
           >
             Download CV <Download size={16} />
@@ -205,7 +205,7 @@ function App() {
 
               <a
                 className="button secondary"
-                href="/Zipo Siposenkosi Nkefe Curriculum Vitae.pdf"
+                href="/Siposenkosi_Zipo_Nkefe_Curriculum_Vitae (1).pdf"
                 download
                 >
                 <Download size={18} /> Download CV
