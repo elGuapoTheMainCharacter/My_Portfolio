@@ -13,6 +13,16 @@ const linkedin = "https://www.linkedin.com/in/ziponkefe";
 
 const projects = [
   {
+    title: "CareerFlow",
+    category: "Full-Stack",
+    description:
+      "A full-stack applicant tracking system built with ASP.NET Core 10, React and EF Core.It more than just an ATS but also a job application place,where companies spot talent,where companies can manage their job posts and more!!",
+    tech: ["React", ".NET 10", "EF Core", "PostgreSQL", "Docker"],
+    live: "http://career-flow-theta-six.vercel.app/",
+    code: "https://github.com/elGuapoTheMainCharacter/CareerFlow",
+    featured: true
+  },
+  {
     title: "GameStore",
     category: "Full-Stack",
     description:
